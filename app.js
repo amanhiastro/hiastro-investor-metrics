@@ -159,10 +159,8 @@ const metricGroups = [
     {key:'impressions',label:'Impressions',formula:'Direct driver',type:'count',direction:'higher'},
     {key:'costPerImpression',label:'Cost per impression',formula:'Spend / impressions',type:'money3',direction:'lower',derived:'Editing adjusts impressions'},
     {key:'clicks',label:'Clicks',formula:'Direct driver',type:'count',direction:'higher'},
-    {key:'ctr',label:'Click-through rate',formula:'Clicks / impressions',type:'percent',direction:'higher',derived:'Editing adjusts clicks'},
     {key:'cpc',label:'Cost per click',formula:'Spend / clicks',type:'money2',direction:'lower',derived:'Editing adjusts clicks'},
     {key:'installs',label:'Installs',formula:'Direct driver',type:'count',direction:'higher'},
-    {key:'clickInstall',label:'Click to install',formula:'Installs / clicks',type:'percent',direction:'higher',derived:'Editing adjusts installs'},
     {key:'cpi',label:'Cost per install',formula:'Spend / installs',type:'money2',direction:'lower',derived:'Editing adjusts installs'},
   ]},
   {name:'Trial and subscription conversion',metrics:[
