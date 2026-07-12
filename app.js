@@ -1,7 +1,7 @@
 const data=[
 ['2026-06-22',54995.05,3858,3314,263,40,5,0,35],['2026-06-23',43396.40,3501,3004,237,39,5,0,34],['2026-06-24',43095.71,3271,2783,252,49,7,0,42],['2026-06-25',58645.31,4610,3983,370,76,6,0,70],['2026-06-26',70669.60,4917,4324,398,65,2,0,63],['2026-06-27',61892.75,4459,3885,385,79,8,0,71],['2026-06-28',68793.99,5259,4525,445,74,2,0,72],['2026-06-29',60950.79,4771,4163,411,74,8,0,66],['2026-06-30',57931.31,4387,3853,416,58,4,0,54],['2026-07-01',70136.66,4586,3963,453,76,4,0,72],['2026-07-02',60978.31,4293,3739,390,76,6,24,46],['2026-07-03',66632.90,4873,4289,490,88,7,35,46],['2026-07-04',66708.09,5599,4953,511,80,2,30,48],['2026-07-05',82984.71,6079,5419,567,106,6,35,65]
 ].map(([date,cost,installs,logins,trials,paid,p199,p299,p499])=>({date,cost,installs,logins,trials,paid,p199,p299,p499,loginTrial:trials/logins,trialPaid:paid/trials,loginPaid:paid/logins,cac:cost/paid}));
-const $=s=>document.querySelector(s), fmt=n=>Math.round(n).toLocaleString('en-IN'), money=n=>'₹'+Math.round(n).toLocaleString('en-IN'), pct=n=>(n*100).toFixed(n<.05?2:1)+'%';
+const $=s=>document.querySelector(s), fmt=n=>Math.round(n).toLocaleString('en-IN'), money=n=>'₹'+Math.round(n).toLocaleString('en-IN'), pct=n=>(n*100).toFixed(n<.05?2:1)+'%', paybackFmt=n=>`${(n*30).toFixed(0)} days / ${n.toFixed(2)} mo`;
 const totals=()=>{const t=data.reduce((a,d)=>{for(const k of ['cost','installs','logins','trials','paid','p199','p299','p499'])a[k]+=d[k];return a},{cost:0,installs:0,logins:0,trials:0,paid:0,p199:0,p299:0,p499:0});return {...t,loginTrial:t.trials/t.logins,trialPaid:t.paid/t.trials,loginPaid:t.paid/t.logins,cac:t.cost/t.paid,date:'all'}};
 function metric(value,label,highlight=false){return `<div class="metric ${highlight?'highlight':''}"><strong>${value}</strong><span>${label}</span></div>`}
 const targetDefinitions=[
@@ -12,6 +12,8 @@ const targetDefinitions=[
   {name:'Cost per trial',definition:'Ad spend divided by unique trial users',current:d=>d.cost/d.trials,target:80.91063304,format:money,higher:false,source:'Observed cohort'},
   {name:'Trial → subscription',definition:'Trial users with a captured monthly payment',current:d=>d.trialPaid,target:.18,format:pct,higher:true,source:'Observed 7-day cohort'},
   {name:'Subscriber CAC',definition:'Ad spend divided by unique paid subscribers',current:d=>d.cac,target:449.5035169,format:money,higher:false,source:'Observed 7-day cohort'},
+  {name:'CAC payback · ad only',definition:'Subscriber CAC ÷ ₹469 monthly ARPU; revenue-based, 30-day month',current:d=>d.cac/469,target:449.5035169/469,format:paybackFmt,higher:false,source:'Observed CAC + workbook ARPU'},
+  {name:'CAC payback · fully loaded',definition:'(Subscriber CAC + ₹277.50 blended LLM cost) ÷ ₹469 monthly ARPU',current:d=>(d.cac+277.5)/469,target:643.7535169/469,format:paybackFmt,higher:false,source:'Observed CAC + workbook cost model'},
   {name:'Minutes per subscriber',definition:'Chat + call minutes per subscriber per week',current:()=>26.2,target:null,format:n=>n.toFixed(1),higher:true,source:'Workbook baseline'},
   {name:'M1 retained minutes',definition:'Weekly minutes among M1 retained subscribers',current:()=>null,target:null,format:n=>n,higher:true,source:'Definition required'},
   {name:'M1 engaged',definition:'Subscribers retained and engaged in month 1',current:()=>null,target:null,format:n=>n,higher:true,source:'Definition required'}
