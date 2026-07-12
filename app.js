@@ -302,7 +302,8 @@ function renderPlannerOutcomes(){
     ['Paid subscribers',number(plans.current.subscribers),number(plans.target.subscribers),'Projected volume','Projected volume'],
     ['Subscriber CAC',money(current.cac),money(target.cac),'Ad spend / subscribers','Team acquisition target'],
     ['Fully loaded cost',money(current.totalCost),money(target.totalCost),'CAC + blended LLM cost','CAC + blended LLM cost'],
-    ['Cash payback',current.fullPayback,target.fullPayback,`${current.adPayback} ad-only`,`${target.adPayback} ad-only`],
+    ['CAC + LLM payback',current.fullPayback,target.fullPayback,'Fully loaded cash recovery','Fully loaded cash recovery'],
+    ['CAC (ad-only) payback',current.adPayback,target.adPayback,'Ad spend only','Ad spend only'],
   ];
   $('#plannerOutcomes').innerHTML = pairs.map(([title,currentValue,targetValue,currentNote,targetNote]) => `<div class="outcome-pair"><div class="outcome-pair-title">${title}</div><div class="outcome-pair-grid"><div class="outcome-card"><span>CURRENT</span><strong>${currentValue}</strong><small>${currentNote}</small></div><div class="outcome-card target"><span>TARGET</span><strong>${targetValue}</strong><small>${targetNote}</small></div></div></div>`).join('');
 }
