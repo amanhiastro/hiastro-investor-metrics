@@ -61,12 +61,25 @@
       </article>
     </section>
 
+    <section class="scorecard-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">TARGETS.XLSX</p><h2>Operating KPI scorecard</h2><p>Observed cohort metrics update with the date selector; workbook-only baselines remain explicitly labeled.</p></div>
+        <div class="score-key"><span class="on-track">Target met</span><span class="off-track">Needs improvement</span><span class="pending">Definition needed</span></div>
+      </div>
+      <div class="scorecard" id="scorecard"></div>
+    </section>
+
+    <section class="economics-section">
+      <div class="section-heading"><div><p class="eyebrow">MODELED ASSUMPTIONS</p><h2>Unit economics and retention</h2><p>Planning inputs from the workbook, kept separate from observed cohort results.</p></div></div>
+      <div class="economics-grid" id="economics"></div>
+    </section>
+
     <section class="table-section">
       <div class="section-heading"><div><h2>Daily cohort detail</h2><p>Click a row to inspect that cohort</p></div></div>
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Spend</th><th>Installs</th><th>Sub logins</th><th>Trials</th><th>Paid</th><th>₹199</th><th>₹299</th><th>₹499</th><th>Login → trial</th><th>Trial → paid</th><th>CAC</th></tr></thead><tbody id="dataRows"></tbody></table></div>
     </section>
 
-    <footer>Sources: Singular Reporting API and HiAstro backend lifecycle events. Paid outcome observed for 7 days. Updated 13 Jul 2026.</footer>
+    <footer>Sources: Singular Reporting API, HiAstro backend lifecycle events, Mixpanel checkpoint, and Targets.xlsx planning assumptions. Paid outcome observed for 7 days. Updated 13 Jul 2026.</footer>
   </main>
   <script src="app.js"></script>
 </body>
