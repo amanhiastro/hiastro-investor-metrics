@@ -298,14 +298,13 @@ function syncPlannerControls(activeControl){
 function renderPlannerOutcomes(){
   const current = calculated(plans.current);
   const target = calculated(plans.target);
-  $('#plannerOutcomes').innerHTML = [
-    ['Current subscribers',number(plans.current.subscribers),`${money(current.cac)} CAC`,false],
-    ['Target subscribers',number(plans.target.subscribers),`${money(target.cac)} CAC`,true],
-    ['Current fully loaded cost',money(current.totalCost),`${current.fullPayback} cash payback`,false],
-    ['Target fully loaded cost',money(target.totalCost),`${target.fullPayback} cash payback`,true],
-    ['Current cash payback',current.fullPayback,`${current.adPayback} ad-only payback`,false],
-    ['Target cash payback',target.fullPayback,`${target.adPayback} ad-only payback`,true],
-  ].map(([label,value,note,isTarget]) => `<div class="outcome-card ${isTarget?'target':''}"><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`).join('');
+  const pairs = [
+    ['Paid subscribers',number(plans.current.subscribers),number(plans.target.subscribers),'Projected volume','Projected volume'],
+    ['Subscriber CAC',money(current.cac),money(target.cac),'Ad spend / subscribers','Team acquisition target'],
+    ['Fully loaded cost',money(current.totalCost),money(target.totalCost),'CAC + blended LLM cost','CAC + blended LLM cost'],
+    ['Cash payback',current.fullPayback,target.fullPayback,`${current.adPayback} ad-only`,`${target.adPayback} ad-only`],
+  ];
+  $('#plannerOutcomes').innerHTML = pairs.map(([title,currentValue,targetValue,currentNote,targetNote]) => `<div class="outcome-pair"><div class="outcome-pair-title">${title}</div><div class="outcome-pair-grid"><div class="outcome-card"><span>CURRENT</span><strong>${currentValue}</strong><small>${currentNote}</small></div><div class="outcome-card target"><span>TARGET</span><strong>${targetValue}</strong><small>${targetNote}</small></div></div></div>`).join('');
 }
 
 function savePlans(){
