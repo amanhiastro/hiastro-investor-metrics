@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>HiAstro Subscription Metrics</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="lock" id="lock">
+    <form class="lock-panel" id="loginForm">
+      <div class="mark">H</div>
+      <p class="eyebrow">HIASTRO METRICS</p>
+      <h1>Investor dashboard</h1>
+      <p class="muted">Enter the access code to view subscription acquisition performance.</p>
+      <label for="password">Access code</label>
+      <div class="password-row">
+        <input id="password" type="password" inputmode="numeric" autocomplete="current-password" autofocus>
+        <button type="submit">Unlock</button>
+      </div>
+      <p class="error" id="error" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <main class="app hidden" id="app">
+    <header>
+      <div>
+        <p class="eyebrow">SUBSCRIPTION ACQUISITION</p>
+        <h1>Growth and conversion</h1>
+        <p class="muted" id="periodText"></p>
+      </div>
+      <div class="header-actions">
+        <div class="date-control">
+          <label for="dateSelect">Cohort</label>
+          <select id="dateSelect"></select>
+        </div>
+        <button class="icon-button" id="logout" title="Lock dashboard" aria-label="Lock dashboard">&#x1f512;</button>
+      </div>
+    </header>
+
+    <section class="metrics" id="metrics"></section>
+
+    <section class="activation" id="activation">
+      <div>
+        <p class="eyebrow">MIXPANEL ACTIVATION CHECKPOINT</p>
+        <p class="activation-note" id="activationNote"></p>
+      </div>
+      <div class="activation-value"><strong id="chatCount">—</strong><span>chat activations</span><b id="chatRate">—</b></div>
+      <div class="activation-value"><strong id="paywallCount">—</strong><span>trial paywall reaches</span><b id="paywallRate">—</b></div>
+    </section>
+
+    <section class="charts">
+      <article>
+        <div class="section-heading"><div><h2>Daily conversion</h2><p>Fully matured 7-day cohorts</p></div><div class="legend"><span class="black">Trial → paid</span><span class="blue">Login → trial</span><span class="cyan">Login → paid</span></div></div>
+        <div class="chart" id="conversionChart"></div>
+      </article>
+      <article>
+        <div class="section-heading"><div><h2>Subscriber CAC</h2><p>Acquisition spend per paid subscriber</p></div></div>
+        <div class="chart" id="cacChart"></div>
+      </article>
+    </section>
+
+    <section class="table-section">
+      <div class="section-heading"><div><h2>Daily cohort detail</h2><p>Click a row to inspect that cohort</p></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Spend</th><th>Installs</th><th>Sub logins</th><th>Trials</th><th>Paid</th><th>₹199</th><th>₹299</th><th>₹499</th><th>Login → trial</th><th>Trial → paid</th><th>CAC</th></tr></thead><tbody id="dataRows"></tbody></table></div>
+    </section>
+
+    <footer>Sources: Singular Reporting API and HiAstro backend lifecycle events. Paid outcome observed for 7 days. Updated 13 Jul 2026.</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
