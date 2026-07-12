@@ -305,6 +305,8 @@ function renderPlannerOutcomes(){
     ['Target subscribers',number(plans.target.subscribers),`${money(target.cac)} CAC`,true],
     ['Current fully loaded cost',money(current.totalCost),`${current.fullPayback} cash payback`,false],
     ['Target fully loaded cost',money(target.totalCost),`${target.fullPayback} cash payback`,true],
+    ['Current cash payback',current.fullPayback,`${current.adPayback} ad-only payback`,false],
+    ['Target cash payback',target.fullPayback,`${target.adPayback} ad-only payback`,true],
   ].map(([label,value,note,isTarget]) => `<div class="outcome-card ${isTarget?'target':''}"><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`).join('');
 }
 
