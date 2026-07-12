@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>HiAstro Subscription Metrics</title>
+  <title>HiAstro Operating Metrics</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <section class="lock" id="lock">
     <form class="lock-panel" id="loginForm">
-      <div class="mark">H</div>
+      <div class="brand-mark">H</div>
       <p class="eyebrow">HIASTRO METRICS</p>
-      <h1>Investor dashboard</h1>
-      <p class="muted">Enter the access code to view subscription acquisition performance.</p>
+      <h1>Operating dashboard</h1>
+      <p class="muted">Enter the access code to view subscription performance and planning targets.</p>
       <label for="password">Access code</label>
       <div class="password-row">
         <input id="password" type="password" inputmode="numeric" autocomplete="current-password" autofocus>
@@ -24,79 +24,98 @@
   </section>
 
   <main class="app hidden" id="app">
-    <header>
+    <header class="app-header">
       <div>
-        <p class="eyebrow">SUBSCRIPTION ACQUISITION</p>
-        <h1>Growth and conversion</h1>
+        <p class="eyebrow">HIASTRO SUBSCRIPTION BUSINESS</p>
+        <h1>Operating metrics</h1>
         <p class="muted" id="periodText"></p>
       </div>
       <div class="header-actions">
         <div class="date-control">
-          <label for="dateSelect">Cohort</label>
+          <label for="dateSelect">Observed cohort</label>
           <select id="dateSelect"></select>
         </div>
         <button class="icon-button" id="logout" title="Lock dashboard" aria-label="Lock dashboard">&#x1f512;</button>
       </div>
     </header>
 
-    <section class="metrics" id="metrics"></section>
+    <nav class="view-tabs" aria-label="Dashboard views">
+      <button class="active" data-view-button="overview">Overview</button>
+      <button data-view-button="planner">Editable planner</button>
+      <button data-view-button="cohorts">Daily cohorts</button>
+    </nav>
 
-    <section class="activation" id="activation">
-      <div>
-        <p class="eyebrow">MIXPANEL ACTIVATION CHECKPOINT</p>
-        <p class="activation-note" id="activationNote"></p>
-      </div>
-      <div class="activation-value"><strong id="chatCount">—</strong><span>chat activations</span><b id="chatRate">—</b></div>
-      <div class="activation-value"><strong id="paywallCount">—</strong><span>trial paywall reaches</span><b id="paywallRate">—</b></div>
+    <section class="view active" data-view="overview">
+      <section class="metrics" id="metrics"></section>
+
+      <section class="executive-summary">
+        <div><p class="eyebrow">EXECUTIVE SUMMARY</p><h2 id="summaryTitle"></h2></div>
+        <div class="summary-points" id="summaryPoints"></div>
+      </section>
+
+      <section class="activation" id="activation">
+        <div>
+          <p class="eyebrow">MIXPANEL ACTIVATION CHECKPOINT</p>
+          <p class="activation-note" id="activationNote"></p>
+        </div>
+        <div class="activation-value"><strong id="chatCount">-</strong><span>chat activations</span><b id="chatRate">-</b></div>
+        <div class="activation-value"><strong id="paywallCount">-</strong><span>trial paywall reaches</span><b id="paywallRate">-</b></div>
+      </section>
+
+      <section class="charts">
+        <article>
+          <div class="section-heading"><div><h2>Daily conversion</h2><p>Fully matured 7-day cohorts</p></div><div class="legend"><span class="black">Trial to paid</span><span class="blue">Login to trial</span><span class="cyan">Login to paid</span></div></div>
+          <div class="chart" id="conversionChart"></div>
+        </article>
+        <article>
+          <div class="section-heading"><div><h2>Subscriber CAC</h2><p>Acquisition spend per paid subscriber</p></div></div>
+          <div class="chart" id="cacChart"></div>
+        </article>
+      </section>
+
+      <section class="overview-scorecard">
+        <div class="section-heading"><div><p class="eyebrow">TARGETS.XLSX</p><h2>Observed vs team target</h2><p>The selected cohort compared with the saved team plan.</p></div></div>
+        <div class="compact-scorecard" id="compactScorecard"></div>
+      </section>
     </section>
 
-    <section class="summary-section">
-      <div><p class="eyebrow">EXECUTIVE SUMMARY</p><h2 id="summaryTitle"></h2></div>
-      <div class="summary-points" id="summaryPoints"></div>
+    <section class="view" data-view="planner">
+      <section class="planner-hero">
+        <div>
+          <p class="eyebrow">DRIVER-BASED PLANNING MODEL</p>
+          <h2>Current plan and team target</h2>
+          <p>Every value is editable. Derived cells recalculate the nearest operating driver, keeping the funnel, CAC, retained revenue, and payback linked.</p>
+        </div>
+        <div class="planner-actions">
+          <label class="mode-control">Spend behavior<select id="spendMode"><option value="hold">Hold volumes</option><option value="scale">Scale funnel</option></select></label>
+          <button id="loadCohort">Load selected cohort</button>
+          <button id="resetPlanner" class="secondary">Reset workbook plan</button>
+        </div>
+      </section>
+
+      <section class="planner-outcomes" id="plannerOutcomes"></section>
+
+      <section class="model-shell">
+        <div class="model-head">
+          <div>Metric and formula</div>
+          <div>Current plan</div>
+          <div>Team target</div>
+          <div>Gap / status</div>
+        </div>
+        <div id="plannerGrid"></div>
+      </section>
+
+      <section class="formula-audit" id="formulaAudit"></section>
     </section>
 
-    <section class="scenario-section">
-      <div class="section-heading">
-        <div><p class="eyebrow">SCENARIO LAB</p><h2>Edit assumptions and recalculate</h2><p>Values are saved in this browser. Derived metrics update as you type.</p></div>
-        <div class="scenario-actions"><button id="loadCohort">Load selected cohort</button><button id="resetScenario" class="secondary">Reset</button></div>
-      </div>
-      <div class="scenario-layout">
-        <div class="scenario-inputs" id="scenarioInputs"></div>
-        <div class="scenario-results" id="scenarioResults"></div>
-      </div>
-      <div class="scenario-summary" id="scenarioSummary"></div>
+    <section class="view" data-view="cohorts">
+      <section class="cohort-intro">
+        <div><p class="eyebrow">SOURCE DATA</p><h2>Daily cohort detail</h2><p>Click a row to load that cohort into Overview, or use "Load selected cohort" in the planner.</p></div>
+      </section>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Spend</th><th>Installs</th><th>Sub logins</th><th>Trials</th><th>Paid</th><th>Rs 199</th><th>Rs 299</th><th>Rs 499</th><th>Login to trial</th><th>Trial to paid</th><th>CAC</th></tr></thead><tbody id="dataRows"></tbody></table></div>
     </section>
 
-    <section class="charts">
-      <article>
-        <div class="section-heading"><div><h2>Daily conversion</h2><p>Fully matured 7-day cohorts</p></div><div class="legend"><span class="black">Trial → paid</span><span class="blue">Login → trial</span><span class="cyan">Login → paid</span></div></div>
-        <div class="chart" id="conversionChart"></div>
-      </article>
-      <article>
-        <div class="section-heading"><div><h2>Subscriber CAC</h2><p>Acquisition spend per paid subscriber</p></div></div>
-        <div class="chart" id="cacChart"></div>
-      </article>
-    </section>
-
-    <section class="scorecard-section">
-      <div class="section-heading">
-        <div><p class="eyebrow">TARGETS.XLSX</p><h2>Operating KPI scorecard</h2><p>Observed cohort metrics update with the date selector; workbook-only baselines remain explicitly labeled.</p></div>
-        <div class="score-key"><span class="on-track">Target met</span><span class="off-track">Needs improvement</span><span class="pending">Definition needed</span></div>
-      </div>
-      <div class="scorecard" id="scorecard"></div>
-    </section>
-
-    <section class="economics-section">
-      <div class="section-heading"><div><p class="eyebrow">MODELED ASSUMPTIONS</p><h2>Unit economics and retention</h2><p>Planning inputs from the workbook, kept separate from observed cohort results.</p></div></div>
-      <div class="economics-grid" id="economics"></div>
-    </section>
-
-    <section class="table-section">
-      <div class="section-heading"><div><h2>Daily cohort detail</h2><p>Click a row to inspect that cohort</p></div></div>
-      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Spend</th><th>Installs</th><th>Sub logins</th><th>Trials</th><th>Paid</th><th>₹199</th><th>₹299</th><th>₹499</th><th>Login → trial</th><th>Trial → paid</th><th>CAC</th></tr></thead><tbody id="dataRows"></tbody></table></div>
-    </section>
-
-    <footer>Sources: Singular Reporting API, HiAstro backend lifecycle events, Mixpanel checkpoint, and Targets.xlsx planning assumptions. Paid outcome observed for 7 days. Updated 13 Jul 2026.</footer>
+    <footer>Sources: Singular Reporting API, HiAstro backend lifecycle events, Mixpanel checkpoint, and Targets.xlsx. Paid outcomes observed for 7 days. Planning changes are saved in this browser.</footer>
   </main>
   <script src="app.js"></script>
 </body>
